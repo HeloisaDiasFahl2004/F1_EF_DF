@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="F1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="IdCar" />
+          </Key>
+          <Property Name="IdCar" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Model" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Unit" Type="int" Nullable="false" />
+          <Property Name="IdTeam" Type="int" />
+        </EntityType>
+        <EntityType Name="CarPilot">
+          <Key>
+            <PropertyRef Name="IdCar" />
+            <PropertyRef Name="IdPilot" />
+            <PropertyRef Name="EventDate" />
+          </Key>
+          <Property Name="IdCar" Type="int" Nullable="false" />
+          <Property Name="IdPilot" Type="int" Nullable="false" />
+          <Property Name="EventDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pilot">
+          <Key>
+            <PropertyRef Name="IdPilot" />
+          </Key>
+          <Property Name="IdPilot" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NamePilot" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="IdTeam" />
+          </Key>
+          <Property Name="IdTeam" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameTeam" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Car__IdTeam__74AE54BC">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="IdTeam" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdTeam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarPilot__IdCar__7C4F7684">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="CarPilot" Type="Self.CarPilot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="IdCar" />
+            </Principal>
+            <Dependent Role="CarPilot">
+              <PropertyRef Name="IdCar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarPilot__IdPilo__7B5B524B">
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="1" />
+          <End Role="CarPilot" Type="Self.CarPilot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pilot">
+              <PropertyRef Name="IdPilot" />
+            </Principal>
+            <Dependent Role="CarPilot">
+              <PropertyRef Name="IdPilot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="F1ModelStoreContainer">
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarPilot" EntityType="Self.CarPilot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pilot" EntityType="Self.Pilot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Car__IdTeam__74AE54BC" Association="Self.FK__Car__IdTeam__74AE54BC">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarPilot__IdCar__7C4F7684" Association="Self.FK__CarPilot__IdCar__7C4F7684">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="CarPilot" EntitySet="CarPilot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarPilot__IdPilo__7B5B524B" Association="Self.FK__CarPilot__IdPilo__7B5B524B">
+            <End Role="Pilot" EntitySet="Pilot" />
+            <End Role="CarPilot" EntitySet="CarPilot" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="F1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="IdCar" />
+          </Key>
+          <Property Name="IdCar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Unit" Type="Int32" Nullable="false" />
+          <Property Name="IdTeam" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="Self.FK__Car__IdTeam__74AE54BC" FromRole="Car" ToRole="Team" />
+          <NavigationProperty Name="CarPilots" Relationship="Self.FK__CarPilot__IdCar__7C4F7684" FromRole="Car" ToRole="CarPilot" />
+        </EntityType>
+        <EntityType Name="CarPilot">
+          <Key>
+            <PropertyRef Name="IdCar" />
+            <PropertyRef Name="IdPilot" />
+            <PropertyRef Name="EventDate" />
+          </Key>
+          <Property Name="IdCar" Type="Int32" Nullable="false" />
+          <Property Name="IdPilot" Type="Int32" Nullable="false" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__CarPilot__IdCar__7C4F7684" FromRole="CarPilot" ToRole="Car" />
+          <NavigationProperty Name="Pilot" Relationship="Self.FK__CarPilot__IdPilo__7B5B524B" FromRole="CarPilot" ToRole="Pilot" />
+        </EntityType>
+        <EntityType Name="Pilot">
+          <Key>
+            <PropertyRef Name="IdPilot" />
+          </Key>
+          <Property Name="IdPilot" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NamePilot" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CarPilots" Relationship="Self.FK__CarPilot__IdPilo__7B5B524B" FromRole="Pilot" ToRole="CarPilot" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="IdTeam" />
+          </Key>
+          <Property Name="IdTeam" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameTeam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK__Car__IdTeam__74AE54BC" FromRole="Team" ToRole="Car" />
+        </EntityType>
+        <Association Name="FK__Car__IdTeam__74AE54BC">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="IdTeam" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdTeam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarPilot__IdCar__7C4F7684">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="CarPilot" Type="Self.CarPilot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="IdCar" />
+            </Principal>
+            <Dependent Role="CarPilot">
+              <PropertyRef Name="IdCar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarPilot__IdPilo__7B5B524B">
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="1" />
+          <End Role="CarPilot" Type="Self.CarPilot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pilot">
+              <PropertyRef Name="IdPilot" />
+            </Principal>
+            <Dependent Role="CarPilot">
+              <PropertyRef Name="IdPilot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="F1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cars" EntityType="Self.Car" />
+          <EntitySet Name="CarPilots" EntityType="Self.CarPilot" />
+          <EntitySet Name="Pilots" EntityType="Self.Pilot" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <AssociationSet Name="FK__Car__IdTeam__74AE54BC" Association="Self.FK__Car__IdTeam__74AE54BC">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarPilot__IdCar__7C4F7684" Association="Self.FK__CarPilot__IdCar__7C4F7684">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="CarPilot" EntitySet="CarPilots" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarPilot__IdPilo__7B5B524B" Association="Self.FK__CarPilot__IdPilo__7B5B524B">
+            <End Role="Pilot" EntitySet="Pilots" />
+            <End Role="CarPilot" EntitySet="CarPilots" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="F1ModelStoreContainer" CdmEntityContainer="F1Entities">
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="F1Model.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="IdCar" ColumnName="IdCar" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="IdTeam" ColumnName="IdTeam" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarPilots">
+            <EntityTypeMapping TypeName="F1Model.CarPilot">
+              <MappingFragment StoreEntitySet="CarPilot">
+                <ScalarProperty Name="IdCar" ColumnName="IdCar" />
+                <ScalarProperty Name="IdPilot" ColumnName="IdPilot" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pilots">
+            <EntityTypeMapping TypeName="F1Model.Pilot">
+              <MappingFragment StoreEntitySet="Pilot">
+                <ScalarProperty Name="IdPilot" ColumnName="IdPilot" />
+                <ScalarProperty Name="NamePilot" ColumnName="NamePilot" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="F1Model.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="IdTeam" ColumnName="IdTeam" />
+                <ScalarProperty Name="NameTeam" ColumnName="NameTeam" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
