@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,9 +49,8 @@ namespace F1_EF_DF
             Console.WriteLine("\t<<< PILOT MENU >>>");
             Console.WriteLine("\t 0-Retornar ao menu principal");
             Console.WriteLine("\t 1-Cadastrar Piloto");
-            Console.WriteLine("\t 2-Editar Piloto");
-            Console.WriteLine("\t 3-Deletar Piloto");
-            Console.WriteLine("\t 4-Exibir todos Pilotos");
+            Console.WriteLine("\t 2-Deletar Piloto");
+            Console.WriteLine("\t 3-Exibir todos Pilotos");
             Console.Write("\t Escolha uma opção: ");
             int opc = int.Parse(Console.ReadLine());
 
@@ -82,16 +82,48 @@ namespace F1_EF_DF
                         break;
                     }
 
-                case 2:
-
-                    break;
-                case 3:
-                    break;
-                case 4:
+                case 2://Delet
+                    Pilot pi = new Pilot();
+                    using(var context = new F1Entities())
+                    {
+                        Console.Write("Nome: ");
+                        pi.NamePilot = Console.ReadLine().ToUpper();
+                        var find = context.Pilots.FirstOrDefault(c => c.NamePilot == pi.NamePilot);
+                        if (find != null)
+                        {
+                            Console.WriteLine("Piloto encontrado!");
+                            Console.WriteLine(pi.ToString());
+                            Console.WriteLine("Continuar deleção: 1-Sim 2-Não ");
+                            int op = int.Parse(Console.ReadLine());
+                            if (op == 2)
+                            {
+                                Console.WriteLine("Deleção Cancelada!");
+                                return;
+                            }
+                            context.Entry(find).State = EntityState.Deleted;
+                            context.Pilots.Remove(find);
+                            context.SaveChanges();
+                            Console.ReadKey();
+                            return;
+                        }
+                        
+                        break;
+                    }
+                  
+                case 3://Select
+                    var contextS = new F1Entities();
+                    var pil = contextS.Pilots.ToList();
+                    foreach (var item in pil)
+                    {
+                        Console.WriteLine(item.ToString());
+                    }
+                    Console.WriteLine("\n\nIMPRESSÃO FINALIZADA");
+                    Console.ReadKey();
                     break;
 
             }
         }
+
         static void CarMenu()
         {
             Console.WriteLine("\t<<< CARRO MENU >>>");
@@ -211,9 +243,8 @@ namespace F1_EF_DF
             Console.WriteLine("\t<<< EQUIPE MENU >>>");
             Console.WriteLine("\t 0-Retornar ao menu principal");
             Console.WriteLine("\t 1-Cadastrar Equipe");
-            Console.WriteLine("\t 2-Editar Equipe");
-            Console.WriteLine("\t 3-Deletar Equipe");
-            Console.WriteLine("\t 4-Exibir todas Equipes");
+            Console.WriteLine("\t 2-Deletar Equipe");
+            Console.WriteLine("\t 3-Exibir todas Equipes");
             Console.Write("\t Escolha uma opção: ");
             int opc = int.Parse(Console.ReadLine());
 
@@ -242,6 +273,9 @@ namespace F1_EF_DF
                         Console.ReadKey();
                         break;
                     }
+                case 2://Delet
+                    Team t = new Team();
+                    break;
 
             }
         }
