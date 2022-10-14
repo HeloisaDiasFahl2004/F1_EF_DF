@@ -8,6 +8,7 @@ using System.Threading;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Reflection.Emit;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace F1_EF_DF
 {
@@ -27,6 +28,7 @@ namespace F1_EF_DF
                 Console.WriteLine("\t 3-Menu Equipe");
                 Console.WriteLine("\t 4-Cadastrar um Evento");
                 Console.WriteLine("\t 5-Visualizar Eventos");
+             
                 Console.Write("\t Escolha uma opção: ");
                 opc = int.Parse(Console.ReadLine());
                 switch (opc)
@@ -107,7 +109,7 @@ namespace F1_EF_DF
                         Console.WriteLine("\n\nIMPRESSÃO FINALIZADA");
                         Console.ReadKey();
                         break;
-
+                    
                 }
             } while (opc != 0);
         }
